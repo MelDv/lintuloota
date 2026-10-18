@@ -1,0 +1,48 @@
+# Julkaisu Azure Static Web Appsiin. MALLI: tämä tiedosto ei ole käytössä tässä repossa.
+# Kopioi se omaan repoosi polkuun .github/workflows/julkaisu.yml.
+# Ennen käyttöä: lisää GitHubiin salaisuudet (Settings → Secrets and variables → Actions):
+#   AZURE_STATIC_WEB_APPS_API_TOKEN  Static Web Appin julkaisutunnus (Azure-portaali → Manage deployment token)
+#   MAXMIND_ACCOUNT_ID               MaxMind-tilin numero
+#   MAXMIND_LICENSE_KEY              MaxMindin lisenssiavain
+# Tarkemmin: docs/kayttoonotto.md
+
+name: Julkaisu Azureen
+
+on:
+  push:
+    branches: [main]
+  # Kerran kuussa: GeoLite2-tietokanta päivittyy (MaxMindin ehtojen mukaan vanha versio
+  # on poistettava käytöstä 30 päivän kuluessa uuden julkaisusta)
+  schedule:
+    - cron: '0 4 1 * *'
+  # Käsin käynnistys GitHubin Actions-välilehdeltä
+  workflow_dispatch:
+
+jobs:
+  julkaise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lataa MaxMind GeoLite2 City -tietokanta
+        env:
+          MAXMIND_ACCOUNT_ID: ${{ secrets.MAXMIND_ACCOUNT_ID }}
+          MAXMIND_LICENSE_KEY: ${{ secrets.MAXMIND_LICENSE_KEY }}
+        run: |
+          mkdir -p api/data
+          curl --fail --silent --show-error --location \
+            --user "$MAXMIND_ACCOUNT_ID:$MAXMIND_LICENSE_KEY" \
+            --output geolite.tar.gz \
+            "https://download.maxmind.com/geoip/databases/GeoLite2-City/download?suffix=tar.gz"
+          tar -xzf geolite.tar.gz
+          mv GeoLite2-City_*/GeoLite2-City.mmdb api/data/
+          ls -lh api/data
+
+      - name: Julkaise Azureen
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: widget       # julkaistava sivu: esimerkkisivu ja lintuloota-tiedostot
+          api_location: api          # Azure Functions
+          output_location: ''

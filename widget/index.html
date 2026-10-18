@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lintuloota – esimerkki</title>
+    <meta name="description" content="Lintuloota näyttää, mitä lintua kävijän alueella on viime päivinä havaittu useimmin.">
+    <link rel="stylesheet" href="lintuloota.css">
+    <style>
+        body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px 16px;
+            font-family: system-ui, sans-serif;
+            line-height: 1.6;
+            color: #1D3127;
+        }
+
+        code {
+            background: #F7F0E1;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .tumma {
+            margin-top: 24px;
+            padding: 24px;
+            border-radius: 16px;
+            background: #1F3A52;
+            color: #FFFFFF;
+        }
+
+        /* Esimerkki tyylin vaihtamisesta CSS-muuttujilla */
+        .tumma .lintuloota {
+            --lintuloota-reuna: rgba(255, 255, 255, 0.3);
+            --lintuloota-himmea: #C9D6E2;
+            --lintuloota-korostus: #E9B44C;
+            --lintuloota-korostusteksti: #1D3127;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Lintuloota</h1>
+        <p>Lintuloota kertoo, mitä lintua kävijän alueella on viime päivinä havaittu useimmin. Sijainti päätellään
+            IP-osoitteesta, havainnot tulevat eBirdistä, kuva Wikimedia Commonsista ja ääni xeno-cantosta.</p>
+
+        <div id="lintuloota"></div>
+        <p id="tila"><em>Odotetaan lintua…</em></p>
+
+        <h2>Tyylit asetettavissa</h2>
+        <p>Sama lintuloota toisilla väreillä ja englanninkielisillä teksteillä (CSS-muuttujat ja
+            <code>tekstit</code>-asetus):
+        </p>
+        <div class="tumma">
+            <div id="lintuloota-en"></div>
+        </div>
+
+        <p>Ohjeet ja koodi: <a href="https://github.com/MelDv/lintuloota">github.com/MelDv/lintuloota</a></p>
+    </main>
+
+    <script src="lintuloota.js"></script>
+    <script>
+        // Perusasetuksilla: suomenkieliset tekstit
+        Lintuloota.kaynnista({
+            elementti: '#lintuloota',
+            // kunValmis kertoo, mistä lintu tuli (omaAlue: true = kävijän alueelta)
+            kunValmis: tieto => {
+                document.getElementById('tila').textContent = tieto.omaAlue
+                    ? 'Lintu haettiin alueeltasi.'
+                    : 'Sijaintiasi ei tunnistettu, joten lintu arvottiin muualta maailmasta.';
+            }
+        });
+
+        // Toinen lintuloota englanniksi: tekstit itse, lajien ja paikkojen nimet palvelimelta (kieli: 'en')
+        Lintuloota.kaynnista({
+            elementti: '#lintuloota-en',
+            kieli: 'en',
+            tekstit: {
+                nimi: 'Bird info',
+                lataus: 'Binoculars up, there goes…',
+                vaihe1: 'Your (or your VPN\'s) location is {sijainti}. The bird most often seen in your area lately is {laji}!',
+                vaihe2: 'Your (or your VPN\'s) location is {sijainti}. A year ago today, the bird seen most often in your area was {laji}!',
+                vaihe3: 'Your (or your VPN\'s) location is {sijainti}. No recent sightings nearby – but if you head out with binoculars, you might spot {laji}!',
+                vaihe4: 'Bird fact: the bird seen most often in {paikka} lately is {laji}!',
+                kuuntele: 'Listen to its song:',
+                soita: 'Listen to the {laji}',
+                pysayta: 'Stop sound',
+                aaniVirhe: 'Sound could not be loaded',
+                lahteet: 'Credits',
+                kuvanLahde: 'Photo: {tekija}, Wikimedia Commons, ',
+                aanenLahde: 'Sound: {tekija}, xeno-canto {numero}, ',
+                tuntematonLisenssi: 'see licence'
+            }
+        });
+    </script>
+</body>
+
+</html>

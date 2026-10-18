@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "EBIRD_API_KEY": "eBird-avaimesi",
+    "XENO_CANTO_API_KEY": "xeno-canto-avaimesi",
+    "GEONAMES_USERNAME": "GeoNames-käyttäjätunnuksesi",
+    "LINTULOOTA_KIELI": "fi",
+    "LINTULOOTA_KIELET": "fi,en",
+    "LINTULOOTA_TUNNISTE": "lintuloota/1.0 (https://oma-sivustosi.fi)"
+  }
+}

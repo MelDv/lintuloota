@@ -1,0 +1,129 @@
+/*!
+ * Lintuloota – tyylit
+ * Värit ja koot vaihdetaan CSS-muuttujilla, esimerkiksi omassa tyylitiedostossa:
+ *   .lintuloota { --lintuloota-korostus: #1F3A52; }
+ * Kaikki muuttujat: docs/asetukset.md
+ */
+
+.lintuloota {
+    --lintuloota-leveys: 460px;
+    --lintuloota-fonttikoko: 15px;
+    --lintuloota-teksti: inherit;
+    --lintuloota-himmea: #56685C;
+    --lintuloota-tausta: transparent;
+    --lintuloota-reuna: #DDE3DE;
+    --lintuloota-kuvatausta: #F7F0E1;
+    --lintuloota-korostus: #2C4838;
+    --lintuloota-korostusteksti: #F7F0E1;
+    --lintuloota-pyoristys: 999px;
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: var(--lintuloota-leveys);
+    min-height: 7rem;                     /* tila varataan heti, ettei sivu hyppää tiedon tullessa */
+    padding: 8px 22px 8px 8px;
+    border: 1px solid var(--lintuloota-reuna);
+    border-radius: var(--lintuloota-pyoristys);
+    background: var(--lintuloota-tausta);
+    color: var(--lintuloota-teksti);
+    font-size: var(--lintuloota-fonttikoko);
+    line-height: 1.45;
+}
+
+.lintuloota[hidden] {
+    display: none;
+}
+
+.lintuloota-kuva {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--lintuloota-kuvatausta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lintuloota-kuva img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lintuloota-kuva svg {
+    width: 44px;
+    height: 37px;
+}
+
+.lintuloota-sisalto {
+    min-width: 0;
+}
+
+.lintuloota p {
+    margin: 0;
+}
+
+.lintuloota[aria-busy="true"] .lintuloota-teksti {
+    color: var(--lintuloota-himmea);
+    font-style: italic;
+}
+
+/* Kuuntelurivi: teksti ja soittonappi sen oikealla puolella */
+.lintuloota .lintuloota-kuuntele {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lintuloota-soita {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--lintuloota-korostus);
+    color: var(--lintuloota-korostusteksti);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.lintuloota-soita svg {
+    width: 16px;
+    height: 16px;
+}
+
+.lintuloota-soita:focus-visible,
+.lintuloota-lahteet summary:focus-visible,
+.lintuloota a:focus-visible {
+    outline: 3px solid var(--lintuloota-korostus);
+    outline-offset: 3px;
+}
+
+.lintuloota-soita:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* Kuvan ja äänen tekijätiedot */
+.lintuloota-lahteet {
+    margin-top: 4px;
+    font-size: 0.87em;
+    color: var(--lintuloota-himmea);
+}
+
+.lintuloota-lahteet summary {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.lintuloota-lahteet a {
+    color: inherit;
+}

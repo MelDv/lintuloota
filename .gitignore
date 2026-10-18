@@ -1,0 +1,25 @@
+# Salaisuudet: avaimet vain omalle koneelle ja Azuren asetuksiin
+local.settings.json
+.env
+.env.*
+
+# MaxMind GeoLite2 -tietokanta: ladataan itse (ohje docs/kayttoonotto.md), lisenssi ei salli jakamista
+*.mmdb
+*.mmdb.gz
+*.tar.gz
+
+# Riippuvuudet ja Azure Functionsin välitiedostot
+node_modules/
+__azurite_db*
+__blobstorage__/
+__queuestorage__/
+
+# Editorit ja käyttöjärjestelmä
+.vscode/
+.idea/
+.vs
+Thumbs.db
+desktop.ini
+.DS_Store
+
+*.log

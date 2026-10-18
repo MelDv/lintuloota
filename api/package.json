@@ -1,0 +1,17 @@
+{
+  "name": "lintuloota-api",
+  "version": "1.0.0",
+  "description": "Lintuloota: Azure Functions -taustapalvelu (sijainti, eBird, Wikimedia Commons, xeno-canto)",
+  "main": "src/functions/*.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "maxmind": "^5.0.7"
+  }
+}
