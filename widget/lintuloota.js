@@ -174,7 +174,7 @@
             if (tieto.kuva) {
                 const img = luo('img');
                 img.src = tieto.kuva.url;
-                img.alt = tieto.laji;
+                img.alt = '';   // lajin nimi on jo viereisessä tekstissä: ruudunlukija ei lue sitä kahdesti
                 img.addEventListener('error', () => { this.kuvapaikka.innerHTML = this.valitseVaralintu(); }, { once: true });
                 this.kuvapaikka.replaceChildren(img);
             } else {
