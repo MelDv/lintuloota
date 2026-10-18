@@ -79,8 +79,18 @@
         return strong;
     }
 
+    // Lisenssin osoite tulee Wikimedialta tai xeno-cantolta: linkiksi vain http(s)-osoite,
+    // ettei esimerkiksi "javascript:"-osoite päädy sivulle. Muuten pelkkä teksti.
+    function onVerkkoOsoite(osoite) {
+        try {
+            return ['https:', 'http:'].includes(new URL(osoite).protocol);
+        } catch (e) {
+            return false;   // ei kelvollinen osoite
+        }
+    }
+
     function linkki(teksti, osoite) {
-        if (!osoite) return document.createTextNode(teksti);
+        if (!onVerkkoOsoite(osoite)) return document.createTextNode(teksti);
         const a = luo('a', null, teksti);
         a.href = osoite;
         a.target = '_blank';
