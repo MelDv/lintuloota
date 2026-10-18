@@ -2,6 +2,15 @@
 
 Lintuloota on pieni verkkosivulle lisättävä boksi, joka kertoo, **mitä lintua kävijän alueella on viime päivinä havaittu useimmin**, näyttää siitä kuvan ja soittaa sen äänen.
 
+<p>
+  <img src="docs/kuvat/lintuloota-fi.png" width="400" alt="Lintuloota oletustyyleillä: Lintutietoutta: paikassa Pennsylvania (Yhdysvallat) useimmin havaittu lintu on viime päivinä ollut sinitöyhtönärhi (Cyanocitta cristata)! Vieressä linnun kuva, soittonappi ja avattu Lähteet-kohta.">
+  <img src="docs/kuvat/lintuloota-en.png" width="400" alt="Sama lintuloota englanniksi ja omilla väreillä tummalla taustalla: Bird fact: the bird seen most often in Pennsylvania (United States) lately is Blue Jay (Cyanocitta cristata)!">
+</p>
+
+*Vasemmalla oletustyylit, oikealla englanninkieliset tekstit ja omat värit. Kuva: Rhododendrites, Wikimedia Commons, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).*
+
+Lintulootan teksti voi olla esimerkiksi tällainen:
+
 > Sinun tai VPN:si sijainti on **Helsinki**. Lintu, jota alueellasi on viime päivinä havaittu useimmin, on **talitiainen** (*Parus major*)!
 > Kuuntele, miltä sen laulu kuulostaa: ▶
 
@@ -76,7 +85,7 @@ lintuloota/
 │   ├── src/lintu/               moduulit: ip, sijainti, ebird, hakuketju, kuva, aani, välimuisti
 │   ├── data/                    GeoLite2-City.mmdb (ladataan itse, ei repossa)
 │   └── local.settings.example.json
-├── docs/                        ohjeet
+├── docs/                        ohjeet (kuvat/: README:n kuvakaappaukset)
 ├── esimerkit/julkaisu.yml       mallijulkaisuputki: kopioi omaan repoosi kansioon .github/workflows/
 └── swa-cli.config.json          paikallinen käynnistys: pelkkä "swa start"
 ```
