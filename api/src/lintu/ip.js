@@ -3,7 +3,7 @@
 const net = require('net');
 const { KEHITYS } = require('./apu');
 
-// Yksityiset ja varatut osoitteet: Azuren sisäiset välityspalvelimet, ei kävijä
+// Yksityiset ja varatut osoitteet
 const SISAISET = new net.BlockList();
 SISAISET.addSubnet('10.0.0.0', 8);
 SISAISET.addSubnet('172.16.0.0', 12);
@@ -15,23 +15,39 @@ SISAISET.addSubnet('fc00::', 7, 'ipv6');
 SISAISET.addSubnet('fe80::', 10, 'ipv6');
 SISAISET.addAddress('::1', 'ipv6');
 
+// Azure Static Web Appsin oma välityspalvelin x-forwarded-for-otsakkeen lopussa
+const AZUREN_VALITYKSET = 1;
+
 // Palauttaa kävijän lyhennetyn IP-osoitteen (IPv4 tai IPv6) tai null.
 // Kehityksessä osoitteen voi antaa itse: ?testi-ip=85.76.12.34
-//
-// X-Forwarded-For on lista "a, b, c". Kävijä voi lähettää listan alun itse (väärennös),
-// mutta Azure lisää kävijän oikean osoitteen loppuun. Siksi listaa luetaan lopusta alkaen,
-// ja ensimmäinen julkinen osoite on kävijän.
 function kavijanIp(request) {
-    const otsake = (KEHITYS && request.query.get('testi-ip')) || request.headers.get('x-forwarded-for');
+    const testiIp = KEHITYS && request.query.get('testi-ip');
+    if (testiIp) {
+        return lyhenna(siistiOsoite(testiIp));
+    }
+    const otsake = request.headers.get('x-forwarded-for');
     if (!otsake) {
         return null;
     }
-    const osoitteet = otsake.split(',').map(siistiOsoite).filter(Boolean);
+    const osoitteet = otsake.split(',').map(siistiOsoite).slice(0, -AZUREN_VALITYKSET);
     for (const osoite of osoitteet.reverse()) {
-        const tyyppi = net.isIPv4(osoite) ? 'ipv4' : 'ipv6';
-        if (!SISAISET.check(osoite, tyyppi)) {
-            return tyyppi === 'ipv4' ? lyhennaIPv4(osoite) : lyhennaIPv6(osoite);
+        if (osoite && !onSisainen(osoite)) {
+            return lyhenna(osoite);
         }
+    }
+    return null;
+}
+
+function onSisainen(osoite) {
+    return SISAISET.check(osoite, net.isIPv4(osoite) ? 'ipv4' : 'ipv6');
+}
+
+function lyhenna(osoite) {
+    if (net.isIPv4(osoite)) {
+        return lyhennaIPv4(osoite);
+    }
+    if (net.isIPv6(osoite)) {
+        return lyhennaIPv6(osoite);
     }
     return null;
 }

@@ -23,7 +23,7 @@ Kävijän selain ottaa yhteyttä vain omiin funktioihin. Ulkoiset palvelut näke
 
 ## Sijainti
 
-1. **IP-osoite** luetaan `x-forwarded-for`-otsakkeesta (`ip.js`). Otsake on lista, jonka alun kävijä voi kirjoittaa itse, mutta Azure lisää kävijän oikean osoitteen loppuun. Siksi lista luetaan lopusta alkaen, Azuren sisäiset (yksityiset) osoitteet ohitetaan, ja ensimmäinen julkinen osoite on kävijän. Porttinumerot, hakasulkeet ja IPv4 IPv6:n sisällä käsitellään.
+1. **IP-osoite** luetaan pyynnön otsakkeista (`ip.js`).
 2. **Lyhennys heti:** IPv4:stä nollataan viimeinen osa (`85.76.12.34` → `85.76.12.0`) ja IPv6:sta säilytetään kolme ensimmäistä ryhmää (`2001:708:10::`). Kaupunki säilyy, mutta yksittäinen liittymä ei.
 3. **GeoLite2** antaa lyhennetylle osoitteelle maan, maakunnan ja kaupungin (`sijainti.js`). Tietokanta on palvelimella, joten osoite ei lähde minnekään.
 4. **Nimi** valitaan tarkimman tiedon mukaan: kaupunki → maakunta → maa. Nimi haetaan GeoNamesista asetetulla kielellä (GeoLite2 käyttää GeoNamesin tunnisteita), muuten GeoLite2:n omista nimistä.
